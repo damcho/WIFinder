@@ -38,7 +38,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.searchObject = SearchObject()
         self.filterSegmentedControl.selectedSegmentIndex = 0
         self.tableView.isHidden = true
-        self.searchBar.placeholder = "ej: jenifer lopez"
+        self.searchBar.placeholder = "ex: jenifer lopez"
         
         activityIndicatorView = NVActivityIndicatorPresenter.sharedInstance
     }
@@ -110,17 +110,24 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         if mediaObject.previewURL != nil {
             player = AVPlayer(url: mediaObject.previewURL!)
             if mediaObject is Movie || mediaObject is TVShow{
-                let playervc = AVPlayerViewController()
-                
-                playervc.delegate = self
-                playervc.player = player
-                self.present(playervc, animated: true) {
-                    playervc.player!.play()
-                }
+                self.playVideo()
             } else if mediaObject is Song {
-                self.player!.play()
+                self.playAAudio()
             }
         }
+    }
+    
+    func playVideo() {
+        let playervc = AVPlayerViewController()
+        playervc.delegate = self
+        playervc.player = player
+        self.present(playervc, animated: true) {
+            playervc.player!.play()
+        }
+    }
+    
+    func playAAudio() {
+        self.player!.play()
     }
 }
 

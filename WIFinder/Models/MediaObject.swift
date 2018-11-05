@@ -13,7 +13,7 @@ class MediaObject {
     
     let artworkUrl:URL
     var previewURL:URL?
-    var artWirkImageDate:Data?
+    var artWorkImageData:Data?
 
     init(data:MediaObjectDecoded) throws{
         artworkUrl = data.artworkURL
@@ -32,12 +32,12 @@ class MediaObject {
     func getImage(completion: @escaping (Data) -> ()){
         
         let handler = { (data:Data) -> () in
-            self.artWirkImageDate = data
+            self.artWorkImageData = data
             completion(data)
         }
         
-        if self.artWirkImageDate != nil {
-            handler(self.artWirkImageDate!)
+        if self.artWorkImageData != nil {
+            handler(self.artWorkImageData!)
         } else {
             ItunesMediaManager.getImage(url: self.artworkUrl, completion: handler)
         }
