@@ -31,7 +31,7 @@ class MediaTableViewCell: UITableViewCell {
         self.mainLabel.text = mediaObject.getMainText()
         self.secondaryLabel.text = mediaObject.getSecondaryText()
         self.artworkImageView.image = nil
-        mediaObject.getImage(completion: {(data:Data) ->() in
+        mediaObject.getImage(completion: {[unowned self] (data:Data) ->() in
             self.artworkImageView.image = UIImage(data: data)
         })
     }
@@ -45,8 +45,8 @@ class MediaTableViewCell: UITableViewCell {
                        usingSpringWithDamping: 0.2,
                        initialSpringVelocity: 6.0,
                        options: .allowUserInteraction,
-                       animations: {
-                        self.artworkImageView.transform = .identity
+                       animations: { [weak self] in
+                        self!.artworkImageView.transform = .identity
         },
                        completion: nil)
     }

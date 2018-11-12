@@ -31,7 +31,7 @@ class MediaObject {
     
     func getImage(completion: @escaping (Data) -> ()){
         
-        let handler = { (data:Data) -> () in
+        let handler = { [unowned self] (data:Data) -> () in
             self.artWorkImageData = data
             completion(data)
         }
