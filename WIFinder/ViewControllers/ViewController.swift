@@ -27,7 +27,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var tableView: UITableView!
     
     var itunesMediaManager:ItunesMediaManager?
-    var searchObject:SearchObject?
+    var searchObject:SearchObject = SearchObject()
     var player:AVPlayer?
     var activityIndicatorView:NVActivityIndicatorPresenter?
     
@@ -35,7 +35,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         super.viewDidLoad()
         
         itunesMediaManager = ItunesMediaManager()
-        self.searchObject = SearchObject()
         self.filterSegmentedControl.selectedSegmentIndex = 0
         self.tableView.isHidden = true
         self.searchBar.placeholder = "ex: jenifer lopez"
@@ -45,7 +44,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     @IBAction func filterControlValueChanged(_ sender: UISegmentedControl) {
         let selectedSegment = MediaType(rawValue: sender.selectedSegmentIndex)!
-        self.searchObject?.mediaType = selectedSegment
+        self.searchObject.mediaType = selectedSegment
     }
     
     func showAlertView(error:Error) -> () {
@@ -56,7 +55,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     @IBAction func searchButtonTapped(_ sender: UIButton) {
         
-        if let error = self.searchObject!.validate(){
+        if let error = self.searchObject.validate(){
             self.showAlertView(error:error)
         } else {
             let handler = { [unowned self] (mediaObjects:[MediaObject]?, error:Error?) -> () in
@@ -71,7 +70,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             
             let activityData = ActivityData()
             activityIndicatorView?.startAnimating(activityData, nil)
-            itunesMediaManager!.searchForMedia(searchObject: self.searchObject!, completionHandler:handler)
+            itunesMediaManager!.searchForMedia(searchObject: self.searchObject, completionHandler:handler)
         }
     }
     
@@ -92,7 +91,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        self.searchObject?.term = searchText
+        self.searchObject.term = searchText
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
