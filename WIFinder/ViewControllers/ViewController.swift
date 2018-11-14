@@ -45,32 +45,23 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     @IBAction func filterControlValueChanged(_ sender: UISegmentedControl) {
         let selectedSegment = MediaType(rawValue: sender.selectedSegmentIndex)!
-        switch selectedSegment {
-        case .ALLMEDIA:
-            self.searchObject?.mediaFilter = filterType.all
-        case .MUSIC:
-            self.searchObject?.mediaFilter = filterType.song
-        case .TVSHOW:
-            self.searchObject?.mediaFilter = filterType.tvShow
-        case .MOVIE:
-            self.searchObject?.mediaFilter = filterType.movie
-        }
+        self.searchObject?.mediaType = selectedSegment
     }
     
-    func showAlertView(msg:String) -> () {
-        let alert = UIAlertController(title: "Alert", message: msg, preferredStyle: UIAlertController.Style.alert)
+    func showAlertView(error:Error) -> () {
+        let alert = UIAlertController(title: "Alert", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
     
     @IBAction func searchButtonTapped(_ sender: UIButton) {
         
-        if self.searchObject!.validate() == false{
-            self.showAlertView(msg: "You must enter a name")
+        if let error = self.searchObject!.validate(){
+            self.showAlertView(error:error)
         } else {
-            let handler = { (mediaObjects:[MediaObject]?, error:String?) -> () in
+            let handler = { [unowned self] (mediaObjects:[MediaObject]?, error:Error?) -> () in
                 if error != nil {
-                    self.showAlertView(msg: error!)
+                    self.showAlertView(error: error!)
                 } else {
                     self.tableView.isHidden = false
                     self.tableView.reloadData()

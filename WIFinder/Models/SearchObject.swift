@@ -8,20 +8,13 @@
 
 import Foundation
 
-enum filterType : String{
-    case song
-    case movie
-    case tvShow
-    case all
-}
-
 class SearchObject {
     
-    var mediaFilter:filterType
+    var mediaType:MediaType
     var term:String?
     
     init() {
-        self.mediaFilter = filterType.all
+        self.mediaType = MediaType.ALLMEDIA
     }
     
     
@@ -32,22 +25,22 @@ class SearchObject {
             urlParams += "term=" + termString
         }
         
-        switch self.mediaFilter {
-        case filterType.all:
+        switch self.mediaType {
+        case .ALLMEDIA:
             urlParams += "&media=all"
-        case filterType.movie:
+        case .MOVIE:
             urlParams += "&media=movie"
-        case filterType.song:
+        case .MUSIC:
             urlParams += "&media=music"
-        case filterType.tvShow:
+        case .TVSHOW:
             urlParams += "&media=tvShow"
             
         }
         return urlParams
     }
     
-    func validate() -> Bool {
-        return self.term != nil && self.term != ""
+    func validate() -> Error? {
+        return  self.term != nil && self.term != "" ? nil : NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "You must enter a name"])
     }
     
 }

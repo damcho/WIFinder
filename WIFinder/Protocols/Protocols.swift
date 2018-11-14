@@ -8,7 +8,7 @@
 
 import Foundation
 
-typealias QueryResut = ([MediaObject]?, String?) -> ()
+typealias QueryResut = ([MediaObject]?, Error?) -> ()
 
 protocol DataConnector{
     

@@ -17,7 +17,6 @@ class ITunesMediaAPIConnector : DataConnector{
     let searchURL = "search"
     let defaultSession:URLSession
     var dataTask: URLSessionDataTask?
-    var errorMessage:String?
     
     init() {
         defaultSession = URLSession(configuration: .default)
@@ -34,29 +33,28 @@ class ITunesMediaAPIConnector : DataConnector{
         }
     }
     
-    func requestMedia(url: URL, completionHandler: @escaping ([MediaObject]?, String?) -> ()){
-        self.errorMessage = nil
+    func requestMedia(url: URL, completionHandler: @escaping ([MediaObject]?, Error?) -> ()){
 
         dataTask = defaultSession.dataTask(with: url) { data, response, error in
             defer {
                 self.dataTask = nil
             }
             if let error = error {
-                self.errorMessage = "DataTask error: " + error.localizedDescription + "\n"
                 DispatchQueue.main.async {
-                    completionHandler(nil, self.errorMessage)
+                    completionHandler(nil, error)
                 }
             } else if let data = data,
                 let response = response as? HTTPURLResponse,
                 response.statusCode == 200 {
-                let mediaObjects = try? MediaObjectDecoder.decode(data: data)
-                if mediaObjects == nil {
-                    self.errorMessage = "Error decoding data"
-                } else if mediaObjects?.count == 0 {
-                    self.errorMessage = "No results for your search"
-                }
-                DispatchQueue.main.async {
-                    completionHandler(mediaObjects,self.errorMessage )
+                do {
+                    let mediaObjects = try MediaObjectDecoder.decode(data: data)
+                    DispatchQueue.main.async {
+                        completionHandler(mediaObjects,nil )
+                    }
+                } catch {
+                    DispatchQueue.main.async {
+                        completionHandler(nil, error)
+                    }
                 }
             }
         }

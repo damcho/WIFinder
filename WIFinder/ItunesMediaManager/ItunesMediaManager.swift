@@ -17,8 +17,8 @@ class ItunesMediaManager {
         self.mediaConnector = ITunesMediaAPIConnector.shared
     }
     
-    func searchForMedia(searchObject:SearchObject, completionHandler: @escaping ([MediaObject]?, String?) -> ()) {
-        let completion:([MediaObject]?, String?) -> () = { [unowned self] (modelObjects:[MediaObject]?, errormsg:String?) -> () in
+    func searchForMedia(searchObject:SearchObject, completionHandler: @escaping QueryResut) {
+        let completion:QueryResut = { [unowned self] (modelObjects:[MediaObject]?, errormsg:Error?) -> () in
             self.mediaObjects = modelObjects
             completionHandler(modelObjects, errormsg)
         }
