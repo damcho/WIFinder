@@ -29,7 +29,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     var itunesMediaManager:ItunesMediaManager?
     var searchObject:SearchObject = SearchObject()
     var player:AVPlayer?
-    var activityIndicatorView:NVActivityIndicatorPresenter?
+    let activityData = ActivityData()
+    var activityIndicatorView:NVActivityIndicatorPresenter = NVActivityIndicatorPresenter.sharedInstance
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,8 +39,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.filterSegmentedControl.selectedSegmentIndex = 0
         self.tableView.isHidden = true
         self.searchBar.placeholder = "ex: jenifer lopez"
-        
-        activityIndicatorView = NVActivityIndicatorPresenter.sharedInstance
     }
     
     @IBAction func filterControlValueChanged(_ sender: UISegmentedControl) {
@@ -65,11 +64,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                     self.tableView.isHidden = false
                     self.tableView.reloadData()
                 }
-                self.activityIndicatorView?.stopAnimating(nil)
+                self.activityIndicatorView.stopAnimating(NVActivityIndicatorView.DEFAULT_FADE_OUT_ANIMATION)
             }
             
-            let activityData = ActivityData()
-            activityIndicatorView?.startAnimating(activityData, nil)
+            activityIndicatorView.startAnimating(activityData, NVActivityIndicatorView.DEFAULT_FADE_IN_ANIMATION)
             itunesMediaManager!.searchForMedia(searchObject: self.searchObject, completionHandler:handler)
         }
     }
