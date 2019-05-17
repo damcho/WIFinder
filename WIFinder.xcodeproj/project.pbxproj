@@ -49,7 +49,7 @@
 		8B08CED1218D0D220041AD6F /* NVActivityIndicatorAnimationOrbit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B08CEAA218D0D210041AD6F /* NVActivityIndicatorAnimationOrbit.swift */; };
 		8B08CED3218D15910041AD6F /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B08CED2218D15910041AD6F /* Protocols.swift */; };
 		8B5252842188DCF900568713 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5252832188DCF900568713 /* AppDelegate.swift */; };
-		8B5252862188DCF900568713 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5252852188DCF900568713 /* ViewController.swift */; };
+		8B5252862188DCF900568713 /* ItunesMediaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5252852188DCF900568713 /* ItunesMediaViewController.swift */; };
 		8B5252892188DCF900568713 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B5252872188DCF900568713 /* Main.storyboard */; };
 		8B52528B2188DCFA00568713 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B52528A2188DCFA00568713 /* Assets.xcassets */; };
 		8B52528E2188DCFA00568713 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B52528C2188DCFA00568713 /* LaunchScreen.storyboard */; };
@@ -120,7 +120,7 @@
 		8B08CED2218D15910041AD6F /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		8B5252802188DCF900568713 /* WIFinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WIFinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B5252832188DCF900568713 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		8B5252852188DCF900568713 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		8B5252852188DCF900568713 /* ItunesMediaViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItunesMediaViewController.swift; sourceTree = "<group>"; };
 		8B5252882188DCF900568713 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8B52528A2188DCFA00568713 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8B52528D2188DCFA00568713 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -300,7 +300,7 @@
 		8B5252A52188EEAF00568713 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				8B5252852188DCF900568713 /* ViewController.swift */,
+				8B5252852188DCF900568713 /* ItunesMediaViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -469,7 +469,7 @@
 				8B08CEC3218D0D220041AD6F /* NVActivityIndicatorAnimationCircleStrokeSpin.swift in Sources */,
 				8B5252B8218A40E500568713 /* ItunesMediaManager.swift in Sources */,
 				8B08CEAC218D0D220041AD6F /* NVActivityIndicatorPresenter.swift in Sources */,
-				8B5252862188DCF900568713 /* ViewController.swift in Sources */,
+				8B5252862188DCF900568713 /* ItunesMediaViewController.swift in Sources */,
 				8B08CECB218D0D220041AD6F /* NVActivityIndicatorAnimationBallPulseSync.swift in Sources */,
 				8B08CEB5218D0D220041AD6F /* NVActivityIndicatorAnimationBallTrianglePath.swift in Sources */,
 				8B08CEBE218D0D220041AD6F /* NVActivityIndicatorAnimationBallClipRotatePulse.swift in Sources */,

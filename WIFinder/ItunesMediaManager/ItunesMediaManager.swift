@@ -27,11 +27,14 @@ class ItunesMediaManager {
     }
     
     func getMediaObjectsCount() -> Int {
-        return self.mediaObjects == nil ? 0 : self.mediaObjects!.count
+        guard let mediaObjects = self.mediaObjects else {
+            return 0
+        }
+        return mediaObjects.count
     }
     
-    func getMediaObject(index:Int) -> MediaObject  {
-        return self.mediaObjects![index]        
+    func getMediaObject(index:Int) -> MediaObject?  {
+        return self.mediaObjects?[index]
     }
     
     class func getImage(url:URL, completion: @escaping (Data) -> ()){
