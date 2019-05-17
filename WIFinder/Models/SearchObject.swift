@@ -39,8 +39,4 @@ class SearchObject {
         return urlParams
     }
     
-    func validate() -> Error? {
-        return  self.term != nil && self.term != "" ? nil : NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "You must enter a name"])
-    }
-    
 }

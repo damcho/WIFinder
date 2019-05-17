@@ -18,11 +18,9 @@ enum MediaType:Int{
     case MOVIE
 }
 
-class ItunesMediaViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, AVPlayerViewControllerDelegate {
+class ItunesMediaViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, AVPlayerViewControllerDelegate, UISearchControllerDelegate, UISearchResultsUpdating {
     
     
-    @IBOutlet weak var searchButton: UIButton!
-    @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var filterSegmentedControl: UISegmentedControl!
     @IBOutlet weak var tableView: UITableView!
     
@@ -34,42 +32,35 @@ class ItunesMediaViewController: UIViewController, UITableViewDataSource, UITabl
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        itunesMediaManager = ItunesMediaManager()
+        self.title = "iTunes Media Search"
+        self.itunesMediaManager = ItunesMediaManager()
         self.filterSegmentedControl.selectedSegmentIndex = 0
-        self.tableView.isHidden = true
-        self.searchBar.placeholder = "ex: jenifer lopez"
+        self.setupSearchController()
+    }
+    
+    func setupSearchController() {
+        let searchController =  UISearchController(searchResultsController: nil)
+        self.navigationItem.searchController = searchController
+        searchController.delegate = self
+        definesPresentationContext = true
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.autocapitalizationType = .none
+        searchController.searchBar.delegate = self
+        searchController.dimsBackgroundDuringPresentation = false
+        navigationItem.hidesSearchBarWhenScrolling = false
+
     }
     
     @IBAction func filterControlValueChanged(_ sender: UISegmentedControl) {
         let selectedSegment = MediaType(rawValue: sender.selectedSegmentIndex)!
         self.searchObject.mediaType = selectedSegment
+        self.fetchMedia()
     }
     
     func showAlertView(error:Error) -> () {
         let alert = UIAlertController(title: "Alert", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
-    }
-    
-    @IBAction func searchButtonTapped(_ sender: UIButton) {
-        
-        if let error = self.searchObject.validate(){
-            self.showAlertView(error:error)
-        } else {
-            let handler = { [unowned self] (mediaObjects:[MediaObject]?, error:Error?) -> () in
-                if error != nil {
-                    self.showAlertView(error: error!)
-                } else {
-                    self.tableView.isHidden = false
-                    self.tableView.reloadData()
-                }
-                self.activityIndicatorView.stopAnimating(NVActivityIndicatorView.DEFAULT_FADE_OUT_ANIMATION)
-            }
-            
-            activityIndicatorView.startAnimating(activityData, NVActivityIndicatorView.DEFAULT_FADE_IN_ANIMATION)
-            itunesMediaManager?.searchForMedia(searchObject: self.searchObject, completionHandler:handler)
-        }
     }
     
     func numberOfSectionsInTableView(tableView: UITableView?) -> Int {
@@ -88,8 +79,32 @@ class ItunesMediaViewController: UIViewController, UITableViewDataSource, UITabl
         return cell
     }
     
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        self.searchObject.term = searchText
+
+    
+    func fetchMedia() {
+        let handler = { [weak self] (mediaObjects:[MediaObject]?, error:Error?) -> () in
+            if error != nil {
+                self?.showAlertView(error: error!)
+            } else {
+                self?.tableView.isHidden = false
+                self?.tableView.reloadData()
+            }
+            self?.activityIndicatorView.stopAnimating(NVActivityIndicatorView.DEFAULT_FADE_OUT_ANIMATION)
+            
+        }
+        activityIndicatorView.startAnimating(activityData, NVActivityIndicatorView.DEFAULT_FADE_IN_ANIMATION)
+        itunesMediaManager?.searchForMedia(searchObject: self.searchObject, completionHandler:handler)
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        self.fetchMedia()
+    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        let whitespaceCharacterSet = CharacterSet.whitespaces
+        let strippedString =
+            searchController.searchBar.text!.trimmingCharacters(in: whitespaceCharacterSet)
+        self.searchObject.term = strippedString
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
