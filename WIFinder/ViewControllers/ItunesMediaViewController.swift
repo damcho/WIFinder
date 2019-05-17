@@ -35,11 +35,12 @@ class ItunesMediaViewController: UIViewController, UITableViewDataSource, UITabl
         self.title = "iTunes Media Search"
         self.itunesMediaManager = ItunesMediaManager()
         self.filterSegmentedControl.selectedSegmentIndex = 0
+        self.filterSegmentedControl.isEnabled = false
         self.setupSearchController()
     }
     
     func setupSearchController() {
-        let searchController =  UISearchController(searchResultsController: nil)
+        let searchController = UISearchController(searchResultsController: nil)
         self.navigationItem.searchController = searchController
         searchController.delegate = self
         definesPresentationContext = true
@@ -48,7 +49,7 @@ class ItunesMediaViewController: UIViewController, UITableViewDataSource, UITabl
         searchController.searchBar.delegate = self
         searchController.dimsBackgroundDuringPresentation = false
         navigationItem.hidesSearchBarWhenScrolling = false
-
+        searchController.searchBar.placeholder = "ex: bruce willis"
     }
     
     @IBAction func filterControlValueChanged(_ sender: UISegmentedControl) {
@@ -79,18 +80,15 @@ class ItunesMediaViewController: UIViewController, UITableViewDataSource, UITabl
         return cell
     }
     
-
-    
     func fetchMedia() {
         let handler = { [weak self] (mediaObjects:[MediaObject]?, error:Error?) -> () in
             if error != nil {
                 self?.showAlertView(error: error!)
             } else {
-                self?.tableView.isHidden = false
                 self?.tableView.reloadData()
             }
+            self?.tableView.isHidden = error == nil
             self?.activityIndicatorView.stopAnimating(NVActivityIndicatorView.DEFAULT_FADE_OUT_ANIMATION)
-            
         }
         activityIndicatorView.startAnimating(activityData, NVActivityIndicatorView.DEFAULT_FADE_IN_ANIMATION)
         itunesMediaManager?.searchForMedia(searchObject: self.searchObject, completionHandler:handler)
@@ -105,6 +103,7 @@ class ItunesMediaViewController: UIViewController, UITableViewDataSource, UITabl
         let strippedString =
             searchController.searchBar.text!.trimmingCharacters(in: whitespaceCharacterSet)
         self.searchObject.term = strippedString
+        self.filterSegmentedControl.isEnabled = strippedString != "" ? true : false
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
