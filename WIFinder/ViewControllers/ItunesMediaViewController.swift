@@ -87,7 +87,7 @@ class ItunesMediaViewController: UIViewController, UITableViewDataSource, UITabl
             } else {
                 self?.tableView.reloadData()
             }
-            self?.tableView.isHidden = error == nil
+            self?.tableView.isHidden = error != nil
             self?.activityIndicatorView.stopAnimating(NVActivityIndicatorView.DEFAULT_FADE_OUT_ANIMATION)
         }
         activityIndicatorView.startAnimating(activityData, NVActivityIndicatorView.DEFAULT_FADE_IN_ANIMATION)
