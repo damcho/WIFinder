@@ -18,7 +18,6 @@ class MediaObject {
     init(data:MediaObjectDecoded) throws{
         artworkUrl = data.artworkURL
         previewURL = data.previewURL
-        
     }
     
     func getSecondaryText() -> String {
@@ -31,16 +30,16 @@ class MediaObject {
     
     func getImage(completion: @escaping (Data) -> ()){
         
-        let handler = { [unowned self] (data:Data) -> () in
-            self.artWorkImageData = data
+        let handler = { [weak self] (data:Data) -> () in
+            self?.artWorkImageData = data
             completion(data)
         }
         
-        if self.artWorkImageData != nil {
-            handler(self.artWorkImageData!)
-        } else {
+        guard let artWorkImagData = self.artWorkImageData else {
             ItunesMediaManager.getImage(url: self.artworkUrl, completion: handler)
+            return
         }
+        handler(artWorkImagData)
     }
 }
 
