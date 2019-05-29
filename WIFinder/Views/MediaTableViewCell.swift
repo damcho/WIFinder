@@ -13,7 +13,7 @@ class MediaTableViewCell: UITableViewCell {
     @IBOutlet weak var secondaryLabel: UILabel!
     @IBOutlet weak var mainLabel: UILabel!
     @IBOutlet weak var artworkImageView: UIImageView!
-    var mediaObject:MediaObject?
+    var mediaObject:(TextDisplay & ArtworkDisplay)?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -26,13 +26,13 @@ class MediaTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func setMediaObject(mediaObject:MediaObject) {
+    func setMediaObject(mediaObject:TextDisplay & ArtworkDisplay) {
         self.mediaObject = mediaObject
         self.mainLabel.text = mediaObject.getMainText()
         self.secondaryLabel.text = mediaObject.getSecondaryText()
         self.artworkImageView.image = nil
-        mediaObject.getImage(completion: {[unowned self] (data:Data) ->() in
-            self.artworkImageView.image = UIImage(data: data)
+        mediaObject.getImage(completion: {[weak self] (data:Data) ->() in
+            self?.artworkImageView.image = UIImage(data: data)
         })
     }
     
