@@ -33,10 +33,18 @@ class ItunesMediaViewController: UIViewController, UITableViewDataSource, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "iTunes Media Search"
+        
+        tableView.refreshControl = UIRefreshControl()
+        tableView.refreshControl?.addTarget(self, action: #selector(refreshMedia), for: .valueChanged)
+        
         self.itunesMediaManager = ItunesMediaManager()
         self.filterSegmentedControl.selectedSegmentIndex = 0
         self.filterSegmentedControl.isEnabled = false
         self.setupSearchController()
+    }
+    
+    @objc func refreshMedia() {
+        self.fetchMedia()
     }
     
     func setupSearchController() {
@@ -58,8 +66,8 @@ class ItunesMediaViewController: UIViewController, UITableViewDataSource, UITabl
         self.fetchMedia()
     }
     
-    func showAlertView(error:Error) -> () {
-        let alert = UIAlertController(title: "Alert", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
+    func showAlertView(msg:String) -> () {
+        let alert = UIAlertController(title: "Alert", message: msg, preferredStyle: UIAlertController.Style.alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
@@ -83,12 +91,17 @@ class ItunesMediaViewController: UIViewController, UITableViewDataSource, UITabl
     func fetchMedia() {
         let handler = { [weak self] (mediaObjects:[MediaObject]?, error:Error?) -> () in
             if error != nil {
-                self?.showAlertView(error: error!)
+                self?.showAlertView(msg: error!.localizedDescription)
             } else {
+                if mediaObjects?.count == 0 {
+                    self?.showAlertView(msg: "No media available for this search")
+                }
                 self?.tableView.reloadData()
             }
             self?.tableView.isHidden = error != nil
             self?.activityIndicatorView.stopAnimating(NVActivityIndicatorView.DEFAULT_FADE_OUT_ANIMATION)
+            self?.tableView.refreshControl?.endRefreshing()
+
         }
         activityIndicatorView.startAnimating(activityData, NVActivityIndicatorView.DEFAULT_FADE_IN_ANIMATION)
         itunesMediaManager?.searchForMedia(searchObject: self.searchObject, completionHandler:handler)
