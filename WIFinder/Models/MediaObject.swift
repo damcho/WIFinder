@@ -9,38 +9,25 @@
 import Foundation
 
 
-class MediaObject {
-    
-    let artworkUrl:URL
-    var previewURL:URL?
-    var artWorkImageData:Data?
+class MediaObject: TextDisplay, ArtworkDisplay {
+    var artWorkImageData: Data?
+    var artworkUrl:URL
 
-    init(data:MediaObjectDecoded) throws{
-        artworkUrl = data.artworkURL
-        previewURL = data.previewURL
-    }
-    
-    func getSecondaryText() -> String {
-        return ""
+    init?(data:MediaObjectDecoded) throws{
+        guard let artWorkUrl = data.artworkURL else {
+            return nil
+        }
+        self.artworkUrl = artWorkUrl
     }
     
     func getMainText() -> String {
         return ""
     }
     
-    func getImage(completion: @escaping (Data) -> ()){
-        
-        let handler = { [weak self] (data:Data) -> () in
-            self?.artWorkImageData = data
-            completion(data)
-        }
-        
-        guard let artWorkImagData = self.artWorkImageData else {
-            ItunesMediaManager.getImage(url: self.artworkUrl, completion: handler)
-            return
-        }
-        handler(artWorkImagData)
+    func getSecondaryText() -> String {
+        return ""
     }
+    
 }
 
 

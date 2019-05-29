@@ -124,8 +124,10 @@ class ItunesMediaViewController: UIViewController, UITableViewDataSource, UITabl
         guard let mediaObject = self.itunesMediaManager?.getMediaObject(index:indexPath.row) else {
             return
         }
-        if mediaObject.previewURL != nil {
-            player = AVPlayer(url: mediaObject.previewURL!)
+        
+        if mediaObject is Playable {
+            let playableObject = mediaObject as! Playable
+            player = AVPlayer(url: playableObject.playableUrl)
             if mediaObject is Movie || mediaObject is TVShow{
                 self.playVideo()
             } else if mediaObject is Song {

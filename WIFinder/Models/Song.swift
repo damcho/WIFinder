@@ -8,14 +8,18 @@
 import AVFoundation
 import Foundation
 
-class Song: MediaObject {
+class Song: MediaObject, Playable {
     let artistName:String
     let trackName:String
-    var audioPlayer:AVPlayer?
+    var playableUrl:URL
 
-    override init(data:MediaObjectDecoded) throws{
+    override init?(data:MediaObjectDecoded) throws{
         self.artistName = data.artistName
         self.trackName = data.trackName!
+        guard let previewUrl = data.previewURL else {
+            return nil
+        }
+        self.playableUrl = previewUrl
         try super.init(data: data)
     }
     

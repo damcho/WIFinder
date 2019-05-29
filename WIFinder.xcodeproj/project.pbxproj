@@ -63,6 +63,7 @@
 		8B5252B6218A38CD00568713 /* SearchObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5252B5218A38CD00568713 /* SearchObject.swift */; };
 		8B5252B8218A40E500568713 /* ItunesMediaManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5252B7218A40E500568713 /* ItunesMediaManager.swift */; };
 		8B5252BD218B747D00568713 /* MediaTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5252BC218B747D00568713 /* MediaTableViewCell.swift */; };
+		8BE845AD229EEC6C00A40AF1 /* protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BE845AC229EEC6C00A40AF1 /* protocols.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,6 +138,7 @@
 		8B5252B5218A38CD00568713 /* SearchObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchObject.swift; sourceTree = "<group>"; };
 		8B5252B7218A40E500568713 /* ItunesMediaManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItunesMediaManager.swift; sourceTree = "<group>"; };
 		8B5252BC218B747D00568713 /* MediaTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaTableViewCell.swift; sourceTree = "<group>"; };
+		8BE845AC229EEC6C00A40AF1 /* protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = protocols.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -293,6 +295,7 @@
 				8B5252B1218A027700568713 /* Movie.swift */,
 				8B5252B3218A028400568713 /* TVShow.swift */,
 				8B5252B5218A38CD00568713 /* SearchObject.swift */,
+				8BE845AC229EEC6C00A40AF1 /* protocols.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -471,6 +474,7 @@
 				8B08CEAC218D0D220041AD6F /* NVActivityIndicatorPresenter.swift in Sources */,
 				8B5252862188DCF900568713 /* ItunesMediaViewController.swift in Sources */,
 				8B08CECB218D0D220041AD6F /* NVActivityIndicatorAnimationBallPulseSync.swift in Sources */,
+				8BE845AD229EEC6C00A40AF1 /* protocols.swift in Sources */,
 				8B08CEB5218D0D220041AD6F /* NVActivityIndicatorAnimationBallTrianglePath.swift in Sources */,
 				8B08CEBE218D0D220041AD6F /* NVActivityIndicatorAnimationBallClipRotatePulse.swift in Sources */,
 				8B5252842188DCF900568713 /* AppDelegate.swift in Sources */,

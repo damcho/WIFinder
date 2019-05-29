@@ -16,21 +16,23 @@ class MediaObjectDecoder {
         let decodedMediaObject =  try  JSONDecoder().decode(DecodedMediaObjects.self, from: data)
         
         var mediaObjects:[MediaObject] = Array()
-        var mediaObj:MediaObject
         for decodedObject in decodedMediaObject.results {
             if decodedObject.kind != nil {
 
                 switch decodedObject.kind {
                     
                 case "song":
-                    mediaObj = try Song(data:decodedObject)
-                    mediaObjects.append(mediaObj)
+                    if let mediaObj = try Song(data:decodedObject) {
+                        mediaObjects.append(mediaObj)
+                    }
                 case "feature-movie":
-                    mediaObj = try Movie(data:decodedObject)
-                    mediaObjects.append(mediaObj)
+                    if let mediaObj = try Movie(data:decodedObject) {
+                        mediaObjects.append(mediaObj)
+                    }
                 case "tv-episode":
-                    mediaObj = try TVShow(data:decodedObject)
-                    mediaObjects.append(mediaObj)
+                    if let mediaObj = try TVShow(data:decodedObject) {
+                        mediaObjects.append(mediaObj)
+                    }
                 default:
                     break
                 }
@@ -53,7 +55,7 @@ struct MediaObjectDecoded :Decodable {
     let artistName:String
     let longDescription:String?
     let trackName:String?
-    let artworkURL:URL
+    let artworkURL:URL?
     let previewURL:URL?
     
     enum CodingKeys : String, CodingKey {
@@ -71,7 +73,7 @@ struct MediaObjectDecoded :Decodable {
         self.artistName = try container.decode(String.self, forKey: .artistName)
         self.longDescription = try? container.decode(String.self, forKey: .longDescription)
         self.previewURL = try? container.decode(URL.self, forKey: .previewURL)
-        self.artworkURL = try container.decode(URL.self, forKey: .artworkURL)
+        self.artworkURL = try? container.decode(URL.self, forKey: .artworkURL)
         self.trackName = try? container.decode(String.self, forKey: .trackName)
     }
 }

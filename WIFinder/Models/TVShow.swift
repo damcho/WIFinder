@@ -8,14 +8,18 @@
 
 import Foundation
 
-class TVShow: MediaObject {
+class TVShow: MediaObject, Playable {
     let artistName:String
     let longDescription:String
-
+    var playableUrl:URL
     
-    override init(data:MediaObjectDecoded) throws{
+    override init?(data:MediaObjectDecoded) throws{
         self.artistName = data.artistName
         self.longDescription = data.longDescription!
+        guard let previewUrl = data.previewURL else {
+            return nil
+        }
+        self.playableUrl = previewUrl
         try super.init(data: data)
     
     }
